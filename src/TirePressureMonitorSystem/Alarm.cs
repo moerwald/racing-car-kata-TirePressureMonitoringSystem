@@ -1,3 +1,5 @@
+using System;
+
 namespace TDDMicroExercises.TirePressureMonitoringSystem
 {
     public class Alarm
@@ -6,6 +8,8 @@ namespace TDDMicroExercises.TirePressureMonitoringSystem
         private const double HighPressureThreshold = 21.00;
 
         private readonly ISensor _sensor;
+        private double _psiPressureValue;
+
         public bool AlarmOn { get; private set; }
 
         public Alarm() : this (new Sensor())
@@ -17,14 +21,17 @@ namespace TDDMicroExercises.TirePressureMonitoringSystem
             _sensor = sensor;
         }
 
-
         public void Check()
         {
-            double psiPressureValue = _sensor.PopNextPressurePsiValue();
+            _psiPressureValue = _sensor.PopNextPressurePsiValue();
+            PressureIsNotInRange(() => AlarmOn = true);
+        }
 
-            if (psiPressureValue < LowPressureThreshold || HighPressureThreshold < psiPressureValue)
+        private void PressureIsNotInRange(Action notInRange)
+        {
+            if (_psiPressureValue < LowPressureThreshold || HighPressureThreshold < _psiPressureValue)
             {
-                AlarmOn = true;
+                notInRange?.Invoke();
             }
         }
     }
