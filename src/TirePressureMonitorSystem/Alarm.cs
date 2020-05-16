@@ -9,7 +9,6 @@ namespace TDDMicroExercises.TirePressureMonitoringSystem
         Sensor _sensor = new Sensor();
 
         bool _alarmOn = false;
-        private long _alarmCount = 0;
 
 
         public void Check()
@@ -19,7 +18,6 @@ namespace TDDMicroExercises.TirePressureMonitoringSystem
             if (psiPressureValue < LowPressureThreshold || HighPressureThreshold < psiPressureValue)
             {
                 _alarmOn = true;
-                _alarmCount += 1;
             }
         }
 
