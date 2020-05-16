@@ -26,15 +26,22 @@ namespace TDDMicroExercises.TirePressureMonitoringSystem
         private void Assert(double pressure, bool alarmState)
         {
             // Arrange
-            var sensorStub = new Moq.Mock<ISensor>();
-            sensorStub.Setup(sensor => sensor.PopNextPressurePsiValue()).Returns(pressure);
-            var alarm = new Alarm(sensorStub.Object);
+            var sensorObject = SetupSensorStub(pressure);
+            var alarm = new Alarm(sensorObject);
 
             // Act
             alarm.Check();
 
             // Assert
             NUnit.Framework.Assert.AreEqual(alarmState, alarm.AlarmOn);
+        }
+
+        private static ISensor SetupSensorStub(double pressure)
+        {
+            var sensorStub = new Moq.Mock<ISensor>();
+            sensorStub.Setup(sensor => sensor.PopNextPressurePsiValue()).Returns(pressure);
+            var sensorObject = sensorStub.Object;
+            return sensorObject;
         }
     }
 }
