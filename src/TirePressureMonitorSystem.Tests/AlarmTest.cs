@@ -26,7 +26,9 @@ namespace TDDMicroExercises.TirePressureMonitoringSystem
         private void Assert(double pressure, bool alarmState)
         {
             // Arrange
-            var alarm = new Alarm();
+            var sensorStub = new Moq.Mock<ISensor>();
+            sensorStub.Setup(sensor => sensor.PopNextPressurePsiValue()).Returns(pressure);
+            var alarm = new Alarm(sensorStub.Object);
 
             // Act
             alarm.Check();
