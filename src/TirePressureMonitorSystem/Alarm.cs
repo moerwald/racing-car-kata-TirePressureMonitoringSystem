@@ -15,10 +15,7 @@ namespace TDDMicroExercises.TirePressureMonitoringSystem
         {
         }
 
-        public Alarm(ISensor sensor)
-        {
-            _sensor = sensor;
-        }
+        public Alarm(ISensor sensor) => _sensor = sensor;
 
         public void Check() => PressureIsNotInRange(() => AlarmOn = true);
 
